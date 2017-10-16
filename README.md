@@ -2,7 +2,7 @@
 
 hiproxy Noah plugin, can only be used on our **internal network**.
 
-## Installation
+## Installation
 
 * install hiproxy
 

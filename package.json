@@ -1,0 +1,24 @@
+{
+  "name": "hiproxy-plugin-noah",
+  "version": "1.0.0",
+  "description": "hiproxy Noah plugin.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiproxy/hiproxy-plugin-noah.git"
+  },
+  "keywords": [
+    "hiproxy",
+    "plugin",
+    "noah"
+  ],
+  "author": "zdying@live.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hiproxy/hiproxy-plugin-noah/issues"
+  },
+  "homepage": "https://github.com/hiproxy/hiproxy-plugin-noah#readme"
+}

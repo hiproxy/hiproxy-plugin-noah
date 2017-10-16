@@ -32,7 +32,7 @@ module.exports = [
         });
       })
       .catch(function (msg) {
-        console.log('Get hosts failed:', msg);
+        console.log('[Error]: ' + msg);
       });
     },
     options: {
@@ -95,10 +95,10 @@ function getHosts (envid) {
             if (isOK) {
               resolve(data);
             } else {
-              reject(json.errMsg);
+              reject(json.errMsg || errmsg);
             }
           } catch (e) {
-            reject(e.message);
+            reject(e.message || errmsg);
           }
         });
       } else {

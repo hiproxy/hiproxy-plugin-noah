@@ -9,38 +9,7 @@ module.exports = [
     command: 'noah',
     describe: 'Start a proxy server and use Noah environment by an `envid`',
     usage: 'hiproxy noah <envid>',
-    fn: function () {
-      var cliArgs = this;
-      var envid = cliArgs._ && cliArgs._[1];
-
-      if (!envid) {
-        console.log();
-        console.log('Error: You should give me an `envid`, for example: `hiproxy noah 12345`');
-        console.log();
-        return;
-      }
-
-      getHosts(envid)
-      .then(function (data) {
-        var hosts = data.content.join('\n');
-        var hiproxy = global.hiproxy;
-        var commands = hiproxy.commands;
-
-        // 禁止自动查找hosts
-        cliArgs.autoFindConf = false;
-
-        commands.start.fn.call(cliArgs).then(function (servers) {
-          global.hiproxyServer.addRule('hosts', hosts);
-          global.hiproxyServer.logger.debug('Noah envid: ' + envid);
-          global.hiproxyServer.logger.debug('Noah hosts: ' + hosts);
-        });
-      })
-      .catch(function (msg) {
-        console.log();
-        console.log('[Error]: ' + msg);
-        console.log();
-      });
-    },
+    fn: startServer,
     options: {
       'port <port>': {
         alias: 'p',
@@ -72,6 +41,48 @@ module.exports = [
     }
   }
 ];
+
+/**
+ * 启动代理服务并使用Noah的hosts
+ *
+ * @returns
+ */
+function startServer () {
+  var cliArgs = this;
+  var envid = cliArgs._ && cliArgs._[1];
+
+  if (!envid) {
+    console.log();
+    console.log('Error: You should give me an `envid`, for example: `hiproxy noah 12345`');
+    console.log();
+    return;
+  }
+
+  getHosts(envid)
+    .then(function (data) {
+      var hosts = data.content.join('\n');
+      var hiproxy = global.hiproxy;
+      var commands = hiproxy.commands;
+
+      // 禁止自动查找hosts
+      cliArgs.autoFindConf = false;
+
+      // 启动服务（复用hiproxy的`start` command）
+      commands.start.fn.call(cliArgs).then(function (servers) {
+        var server = global.hiproxyServer;
+        var logger = server.logger;
+
+        server.addRule('hosts', hosts);
+        logger.debug('Noah envid: ' + envid);
+        logger.debug('Noah hosts: ' + hosts);
+      });
+    })
+    .catch(function (msg) {
+      console.log();
+      console.log('[Error]: ' + msg);
+      console.log();
+    });
+}
 
 /**
  * 根据envid获取hosts

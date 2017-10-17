@@ -4,6 +4,8 @@
  */
 'use strict';
 
+var utils = require('../utils');
+
 module.exports = [
   {
     command: 'noah',
@@ -51,6 +53,12 @@ function startServer () {
   var cliArgs = this;
   var envid = cliArgs._ && cliArgs._[1];
 
+  // TODO 不能这么搞，hiproxy需要提供一个统一的数据存储模块
+  global.hiproxy_data = global.hiproxy_data || {};
+  global.hiproxy_data.noah = {
+    envid: envid
+  };
+
   if (!envid) {
     console.log();
     console.log('Error: You should give me an `envid`, for example: `hiproxy noah 12345`');
@@ -58,7 +66,7 @@ function startServer () {
     return;
   }
 
-  getHosts(envid)
+  utils.getHosts(envid)
     .then(function (data) {
       var hosts = data.content.join('\n');
       var hiproxy = global.hiproxy;
@@ -69,12 +77,7 @@ function startServer () {
 
       // 启动服务（复用hiproxy的`start` command）
       commands.start.fn.call(cliArgs).then(function (servers) {
-        var server = global.hiproxyServer;
-        var logger = server.logger;
-
-        server.addRule('hosts', hosts);
-        logger.debug('Noah envid: ' + envid);
-        logger.debug('Noah hosts: ' + hosts);
+        utils.updateHosts(hosts, envid);
       });
     })
     .catch(function (msg) {
@@ -82,51 +85,4 @@ function startServer () {
       console.log('[Error]: ' + msg);
       console.log();
     });
-}
-
-/**
- * 根据envid获取hosts
- *
- * @param {any} envid Noah环境编号
- * @returns Promise
- */
-function getHosts (envid) {
-  return new Promise(function (resolve, reject) {
-    var http = require('http');
-    var url = 'http://qa.corp.qunar.com/qodin/api/common/noah/getHost?source=hiproxy-cli&envId=' + envid;
-    var errmsg = 'hosts get failed, please check your network or the envid';
-    var req = http.request(url, function (res) {
-      var statusCode = res.statusCode;
-      var body = '';
-
-      if (statusCode >= 200 && statusCode < 400) {
-        res.on('data', (chunk) => {
-          body += chunk.toString();
-        });
-        res.on('end', () => {
-          try {
-            var json = JSON.parse(body);
-            var data = json.data;
-            var isOK = json.ret && data && Array.isArray(data.content) && data.content.length > 0;
-
-            if (isOK) {
-              resolve(data);
-            } else {
-              reject(json.errMsg || errmsg);
-            }
-          } catch (e) {
-            reject(e.message || errmsg);
-          }
-        });
-      } else {
-        reject(errmsg);
-      }
-    });
-
-    req.on('error', function (e) {
-      reject(errmsg);
-    });
-
-    req.end();
-  });
 }

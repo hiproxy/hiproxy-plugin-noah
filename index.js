@@ -5,9 +5,9 @@
 
 'use strict';
 
-var commands = require('./src/commands');
-var directives = require('./src/directives');
-var routes = require('./src/routes');
+var commands = require('./src/plugin/commands');
+var directives = require('./src/plugin/directives');
+var routes = require('./src/plugin/routes');
 
 module.exports = {
   // CLI commands

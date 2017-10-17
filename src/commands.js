@@ -14,7 +14,9 @@ module.exports = [
       var envid = cliArgs._ && cliArgs._[1];
 
       if (!envid) {
+        console.log();
         console.log('Error: You should give me an `envid`, for example: `hiproxy noah 12345`');
+        console.log();
         return;
       }
 
@@ -29,10 +31,14 @@ module.exports = [
 
         commands.start.fn.call(cliArgs).then(function (servers) {
           global.hiproxyServer.addRule('hosts', hosts);
+          global.hiproxyServer.logger.debug('Noah envid: ' + envid);
+          global.hiproxyServer.logger.debug('Noah hosts: ' + hosts);
         });
       })
       .catch(function (msg) {
+        console.log();
         console.log('[Error]: ' + msg);
+        console.log();
       });
     },
     options: {

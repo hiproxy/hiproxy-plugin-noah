@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/hiproxy/hiproxy-plugin-noah/issues"
   },
-  "homepage": "https://github.com/hiproxy/hiproxy-plugin-noah#readme"
+  "homepage": "https://github.com/hiproxy/hiproxy-plugin-noah#readme",
+  "dependencies": {
+    "mustache": "^2.3.0"
+  }
 }

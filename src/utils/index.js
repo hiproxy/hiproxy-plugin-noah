@@ -4,6 +4,10 @@
  * @param {any} envid Noah环境编号
  * @returns Promise
  */
+
+var hiproxy = global.hiproxy;
+var noahData = hiproxy.dataProvider.getData('noah');
+
 module.exports = {
   getHosts: function (envid) {
     return new Promise(function (resolve, reject) {
@@ -50,8 +54,8 @@ module.exports = {
     var server = global.hiproxyServer;
     var logger = server.logger;
 
-    global.hiproxy_data.noah.hosts = hosts;
-    global.hiproxy_data.noah.envid = envid;
+    noahData.set('hosts', hosts);
+    noahData.set('envid', envid);
 
     server.addRule('hosts', hosts);
     logger.debug('Noah envid: ' + envid);

@@ -5,6 +5,7 @@
 'use strict';
 
 var utils = require('../utils');
+var noahData = global.hiproxy.dataProvider.getData('noah');
 
 module.exports = [
   {
@@ -53,11 +54,7 @@ function startServer () {
   var cliArgs = this;
   var envid = cliArgs._ && cliArgs._[1];
 
-  // TODO 不能这么搞，hiproxy需要提供一个统一的数据存储模块
-  global.hiproxy_data = global.hiproxy_data || {};
-  global.hiproxy_data.noah = {
-    envid: envid
-  };
+  noahData.set('envid', envid);
 
   if (!envid) {
     console.log();

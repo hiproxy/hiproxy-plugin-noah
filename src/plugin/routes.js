@@ -5,6 +5,9 @@
 'use strict';
 
 var utils = require('../utils/');
+var mustache = require('mustache');
+var fs = require('fs');
+var path = require('path');
 
 module.exports = [
   {
@@ -20,17 +23,26 @@ module.exports = [
   {
     route: '/noah/',
     render: function (route, request, response) {
-      response.writeHead(200, {
-        'Content-Type': 'text/html; charset=utf-8'
+      var noahData = global.hiproxy.dataProvider.getData('noah');
+      var noah = noahData.get();
+      var html = '';
+
+      fs.readFile(path.join(__dirname, '..', 'views', 'noah.html'), 'utf-8', function (err, data) {
+        if (err) {
+          response.writeHead(500, {
+            'Content-Type': 'text/html; charset=utf-8'
+          });
+          response.end('Page render error.');
+        } else {
+          response.writeHead(200, {
+            'Content-Type': 'text/html; charset=utf-8'
+          });
+
+          html = mustache.render(data, noah);
+
+          response.end(html);
+        }
       });
-
-      var noahData = global.hiproxy_data.noah;
-
-      response.write('<h1>欢迎使用Noah插件</h1>');
-      response.write('<div>当前ID:' + noahData.envid + '</div>');
-      response.write('<div>当前Hosts:</div>');
-      response.write('<pre style="background: lightgray; border-radius: 5px; padding: 10px;">' + noahData.hosts + '</pre>');
-      response.end();
     }
   },
   {
@@ -56,6 +68,11 @@ module.exports = [
       utils.getHosts(route.id)
         .then(function (data) {
           var hosts = data.content.join('\n');
+          var hiproxyHosts = server.hosts;
+
+          // 清空当前的hosts
+          hiproxyHosts.clearFiles();
+          // 更新为新环境的hosts
           utils.updateHosts(hosts, route.id);
 
           res.end(JSON.stringify({

@@ -1,6 +1,6 @@
 # hiproxy-plugin-noah
 
-为hiproxy开发的Noah插件，只能在我们**内网**使用。
+为hiproxy开发的Noah插件（只能在我们**内网**使用），可以根据Noah环境的ID，快速切换环境对应的hosts。
 
 ## 安装
 
@@ -23,11 +23,12 @@ npm install -g hiproxy-plugin-noah
 如果你已经知道了一套Noah环境的ID，你可以直接使用下面的命令启动hiproxy，传入ID。
 
 ```bash
-# 26572 is the envid
+# 26572  ==> 环境ID
+# --open ==> 打开浏览器窗口并自动配置好代理
 hiproxy noah 26572 --open
 ```
 
-### 启动后在切换
+### 启动后再切换
 
 如果你不喜欢使用envid启动，你可以使用一下步骤来使用Noah环境：
 

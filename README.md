@@ -43,6 +43,13 @@ hiproxy noah 26572 --open
 > 1、不管使用上面两种方式中的哪一种启动，都可以在<http://127.0.0.1:5525/noah/>里面切换Noah环境。 <br/>
 > 2、为了保证使用“纯净”的Noah环境，切换Noah环境时，会清空其他所有的hosts／rewrite配置。 
 
+## 插件地址
+
+<http://127.0.0.1:<port>/noah/>
+
+## 截图
+
+![](./noah-plugin.png)
 
 ## 帮助信息
 

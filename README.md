@@ -1,29 +1,37 @@
 # hiproxy-plugin-noah
 
-hiproxy Noah plugin, can only be used on our **internal network**.
+为hiproxy开发的Noah插件，只能在我们**内网**使用。
 
-## Installation
+## 安装
 
-* install hiproxy
+* 安装hiproxy
 
 ```bash
 npm install -g hiproxy
 ```
 
-* install noah plugin
+* 安装Noah插件
 
 ```bash
 npm install -g hiproxy-plugin-noah
 ```
 
-## Usage
+## 使用
+
+**直接启动Noah：**
+
+如果你已经知道了一套Noah环境的ID，你可以直接使用下面的命令启动hiproxy，传入ID。
 
 ```bash
 # 26572 is the envid
 hiproxy noah 26572 --open
 ```
 
-## Help
+## 帮助信息
+
+```bash
+hiproxy noah --help
+```
 
 ```bash
 USAGE:
@@ -47,4 +55,4 @@ OPTIONS:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/hiproxy/hiproxy-plugin-noah/blob/master/LICENSE) file for details
+该插件采用MIT协议，点击[LICENSE](https://github.com/hiproxy/hiproxy-plugin-noah/blob/master/LICENSE)查看详情。

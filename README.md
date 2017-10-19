@@ -18,7 +18,7 @@ npm install -g hiproxy-plugin-noah
 
 ## 使用
 
-**直接启动Noah：**
+### 直接使用envid启动
 
 如果你已经知道了一套Noah环境的ID，你可以直接使用下面的命令启动hiproxy，传入ID。
 
@@ -27,11 +27,25 @@ npm install -g hiproxy-plugin-noah
 hiproxy noah 26572 --open
 ```
 
+### 启动后在切换
+
+如果你不喜欢使用envid启动，你可以使用一下步骤来使用Noah环境：
+
+* 1、直接在**任意目录**启动hiproxy；
+* 2、访问<http://127.0.0.1:5525/noah/>（这里使用了**默认端口: 5525**）；
+* 3、输入`envid`；
+* 4、点击`切换`按钮。
+
+经过上面的步骤之后，页面会自动刷新，你能看到当前使用的hosts内容。
+
+> **提示**：
+> 1、不管使用上面两种方式中的哪一种启动，都可以在<http://127.0.0.1:5525/noah/>里面切换Noah环境。
+> 2、为了保证使用“纯净”的Noah环境，切换Noah环境时，会清空其他所有的hosts／rewrite配置。
+
+
 ## 帮助信息
 
-```bash
-hiproxy noah --help
-```
+可以使用命令`hiproxy noah --help`来查看Noah插件的使用方法、参数等帮助信息。
 
 ```bash
 USAGE:

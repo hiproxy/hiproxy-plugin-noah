@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Noah from './Noah';
 import './index.css';
 
 ReactDOM.render(
-  <App />,
+  <Noah />,
   document.getElementById('root')
 );

@@ -8,17 +8,9 @@ body {
   padding: 10px;
 }
 
-#app .trigger {
-  font-size: 18px;
-  line-height: 64px;
-  float: left;
-  padding: 0 24px;
-  cursor: pointer;
-  transition: color .3s;
-}
-
-#app .trigger:hover {
-  color: #1890ff;
+#app .main-layout {
+  display: flex; 
+  flex-direction: column;
 }
 
 #app .logo {
@@ -37,7 +29,7 @@ body {
 #app .label {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 #app .ant-input {
@@ -47,4 +39,15 @@ body {
   font-weight: bold;
   vertical-align: middle;
   vertical-align: -webkit-baseline-middle;
+}
+
+#app .ant-input.envid {
+  font-family: Consolas, Menlo, Courier, monospace;
+}
+
+#app button {
+  height: 32px;
+  width: 100px;
+  font-size: 14px;
+  font-weight: 400;
 }

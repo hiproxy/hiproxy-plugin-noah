@@ -1,10 +1,10 @@
 import { Layout, Menu, Icon } from 'antd';
 import React, { Component } from 'react';
-import { Button, Row, Col, Input } from 'antd';
+import { Button, Row, Col, Input, message } from 'antd';
 import logo from './logo-light.svg';
 import noahLogo from './noah-logo.png';
 import 'antd/dist/antd.css';
-import './App.css';
+import './Noah.css';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -41,15 +41,15 @@ class App extends Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout>
+        <Layout className="main-layout">
           <Header style={{ background: '#fff', padding: '0 10px' }}>
             <h1>欢迎使用 hiproxy Noah 插件</h1>
           </Header>
-          <Content style={{ margin: '10px', padding: 20, background: '#fff', minHeight: 280 }}>
+          <Content style={{ margin: '10px', padding: 20, background: '#fff', flex: 1, overflow: 'auto' }}>
             <Row>
               <Col span={4} className="label">当前环境ID: </Col>
               <Col span={20}>
-                <Input size="large" placeholder="envid" value={this.state.envid} onChange={this.onChange.bind(this)} />
+                <Input size="large" className="envid" placeholder="envid" value={this.state.envid} onChange={this.onChange.bind(this)} />
                 <Button onClick={this.onClick.bind(this)} type="primary">切换</Button>
               </Col>
             </Row>
@@ -66,8 +66,9 @@ class App extends Component {
     );
   }
 
-  sendRequest (url) {
+  sendRequest (url, envid) {
     var xhr = new XMLHttpRequest();
+    var self = this;
     xhr.open('get', url);
     xhr.onreadystatechange = function () {
       var readState = xhr.readyState;
@@ -78,10 +79,16 @@ class App extends Component {
         result = JSON.parse(result);
 
         if (result && result.status === 0) {
-          alert('环境切换成功');
-          location.reload();
+          message.success(`已经切换到新的Noah环境，环境ID为【${envid}】`)
+          self.setState({
+            hosts: result.hosts,
+            envid: envid
+          });
+
+          window.noah.hosts = result.hosts;
+          window.noah.envid = envid;
         } else {
-          alert('环境切换失败：' + result.message);
+          message.error(`环境切换失败：【${result.message}】`)
         }
       }
     };
@@ -93,9 +100,9 @@ class App extends Component {
     var envid = this.state.envid;
 
     if (envid) {
-      this.sendRequest('http://127.0.0.1:5525/noah/api/set-env/' + envid);          
+      this.sendRequest('http://127.0.0.1:5525/noah/api/set-env/' + envid, envid);          
     } else {
-      alert('请输入envid再切换！');
+      message.warning('请输入envid再尝试切换！');
     }
   }
 

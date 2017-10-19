@@ -65,7 +65,7 @@ function startServer () {
 
   utils.getHosts(envid)
     .then(function (data) {
-      var hosts = data.content.join('\n');
+      var hosts = data.content;
       var hiproxy = global.hiproxy;
       var commands = hiproxy.commands;
 

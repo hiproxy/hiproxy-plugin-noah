@@ -1,0 +1,50 @@
+body {
+  font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.code {
+  background: rgb(226, 225, 225); 
+  border-radius: 5px; 
+  padding: 10px;
+}
+
+#app .trigger {
+  font-size: 18px;
+  line-height: 64px;
+  float: left;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color .3s;
+}
+
+#app .trigger:hover {
+  color: #1890ff;
+}
+
+#app .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  margin: 16px 0;
+}
+
+#app .logo img {
+  height: 32px;
+  margin: 0 10px;
+}
+
+#app .label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#app .ant-input {
+  width: 200px;
+  margin: 0 8px 8px 0;
+  font-size: 20px;
+  font-weight: bold;
+  vertical-align: middle;
+  vertical-align: -webkit-baseline-middle;
+}

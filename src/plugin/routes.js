@@ -5,6 +5,7 @@
 'use strict';
 
 var utils = require('../utils/');
+var sendFile = require('../utils/sendFile');
 var mustache = require('mustache');
 var fs = require('fs');
 var path = require('path');
@@ -38,7 +39,10 @@ module.exports = [
             'Content-Type': 'text/html; charset=utf-8'
           });
 
-          html = mustache.render(data, noah);
+          html = mustache.render(data, {
+            envid: noah.envid,
+            hosts: JSON.stringify(noah.hosts)
+          });
 
           response.end(html);
         }
@@ -67,7 +71,7 @@ module.exports = [
 
       utils.getHosts(route.id)
         .then(function (data) {
-          var hosts = data.content.join('\n');
+          var hosts = data.content;
           var hiproxyHosts = server.hosts;
           var hiproxyRewrite = server.rewrite;
 
@@ -75,7 +79,7 @@ module.exports = [
           hiproxyHosts.clearFiles();
           // 晴空当前所有的rewrite
           hiproxyRewrite.clearFiles();
-
+console.log('hosts:::', hosts);
           // 更新为新环境的hosts
           utils.updateHosts(hosts, route.id);
 
@@ -92,6 +96,13 @@ module.exports = [
             message: msg
           }));
         });
+    }
+  },
+  {
+    route: '/noah/static/(*)',
+    render: function (route, req, res) {
+      var filePath = path.join(__dirname, '..', '..', 'dist', route._);
+      sendFile(filePath, res);
     }
   }
 ];

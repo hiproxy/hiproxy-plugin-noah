@@ -2,112 +2,15 @@
   <head>
     <title>hiproxy Noah 插件</title>
     <meta charset="utf-8">
-    <style>
-      body {
-        font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
-
-      h2 {
-        font-size: 16px;
-      }
-
-      input {
-        width: 120px;
-        height: 28px;
-        font-size: 20px;
-        border-radius: 5px;
-        border: 1px solid rgb(204, 204, 204);
-        outline: none;
-      }
-
-      button {
-        font-size: 14px;
-        display: inline-block;
-        color: #fff;
-        text-decoration: none;
-        margin: 40px 0;
-        background-color: #25a1f0;
-        padding: 5px 24px;
-        position: relative;
-        -webkit-transition: 0.2s;
-        -moz-transition: 0.2s;
-        -ms-transition: 0.2s;
-        transition: 0.2s;
-        border-radius: 2px;
-        -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
-        box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
-        border: 0;
-        outline: 0
-      }
-
-      input:focus {
-        border: 1px solid rgba(61, 61, 230, 0.6)
-      }
-
-      .inline {
-        display: inline;
-      }
-
-      .code {
-        background: rgb(226, 225, 225); 
-        border-radius: 5px; 
-        padding: 10px;
-      }
-    </style>
   </head>
   <body>
-    <h1>欢迎使用 hiproxy Noah 插件</h1>
-    <section>
-      <div>
-        <h2 class="inline">当前环境ID: </h2>
-        <input name="envid" id="js-envid" value="{{envid}}"/>
-        <button id="js-change-env">切换</button>
-      </div>
-      <div>
-        <h2>当前环境Hosts：</h2>
-        <pre class="code">{{hosts}}</pre>
-      </div>
-    </section>
+    <div id="root"></div>
     <script>
-      var $button = document.getElementById('js-change-env');
-      var $envid = document.getElementById('js-envid');
-
-      var sendRequest = function (url) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('get', url);
-        xhr.onreadystatechange = function () {
-          var readState = xhr.readyState;
-          var status = xhr.status;
-          var result = xhr.responseText;
-
-          if (readState === 4 && status >= 200 && status < 400) {
-            result = JSON.parse(result);
-
-            if (result && result.status === 0) {
-              alert('环境切换成功');
-              location.reload();
-            } else {
-              alert('环境切换失败：' + result.message);
-            }
-          }
-        }
-
-        xhr.send();
+      window.noah = {
+        envid: {{envid}},
+        hosts: {{{hosts}}}
       };
-
-      $button.addEventListener('click', function (eve) {
-        var envid = $envid.value;
-
-        if (envid) {
-          sendRequest('http://127.0.0.1:5525/noah/api/set-env/' + envid);          
-        } else {
-          alert('请输入envid再切换！');
-        }
-      });
     </script>
+    <script src="/noah/static/index.js"></script>
   </body>
 </html>

@@ -57,7 +57,7 @@ module.exports = {
     noahData.set('hosts', hosts);
     noahData.set('envid', envid);
 
-    server.addRule('hosts', hosts);
+    server.addRule('hosts', hosts.join('\n'));
     logger.debug('Noah envid: ' + envid);
     logger.debug('Noah hosts: ' + hosts);
   }

@@ -20,7 +20,7 @@ npm install -g hiproxy-plugin-noah
 
 ```bash
 # 26572 is the envid
-hiproxy noah 26572
+hiproxy noah 26572 --open
 ```
 
 ## Help

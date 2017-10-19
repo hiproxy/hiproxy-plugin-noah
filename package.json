@@ -1,6 +1,6 @@
 {
   "name": "hiproxy-plugin-noah",
-  "version": "1.0.0-pre",
+  "version": "1.0.0",
   "description": "hiproxy Noah plugin.",
   "main": "index.js",
   "scripts": {

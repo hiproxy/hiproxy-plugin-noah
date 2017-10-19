@@ -69,9 +69,13 @@ module.exports = [
         .then(function (data) {
           var hosts = data.content.join('\n');
           var hiproxyHosts = server.hosts;
+          var hiproxyRewrite = server.rewrite;
 
-          // 清空当前的hosts
+          // 清空当前所有的hosts
           hiproxyHosts.clearFiles();
+          // 晴空当前所有的rewrite
+          hiproxyRewrite.clearFiles();
+
           // 更新为新环境的hosts
           utils.updateHosts(hosts, route.id);
 

@@ -45,7 +45,7 @@ hiproxy noah 26572 --open
 
 ## 插件地址
 
-<http://127.0.0.1:<port>/noah/>
+<http://127.0.0.1:[port]/noah/>
 
 ## 截图
 

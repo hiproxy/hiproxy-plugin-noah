@@ -7,7 +7,7 @@ hiproxy Noah plugin, can only be used on our **internal network**.
 * install hiproxy
 
 ```bash
-npm install -g hiproxy@beta
+npm install -g hiproxy
 ```
 
 * install noah plugin

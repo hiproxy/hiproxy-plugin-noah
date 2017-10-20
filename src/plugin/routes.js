@@ -40,8 +40,8 @@ module.exports = [
           });
 
           html = mustache.render(data, {
-            envid: noah.envid,
-            hosts: JSON.stringify(noah.hosts)
+            envid: noah.envid || '',
+            hosts: JSON.stringify(noah.hosts || [])
           });
 
           response.end(html);
@@ -79,7 +79,7 @@ module.exports = [
           hiproxyHosts.clearFiles();
           // 晴空当前所有的rewrite
           hiproxyRewrite.clearFiles();
-console.log('hosts:::', hosts);
+
           // 更新为新环境的hosts
           utils.updateHosts(hosts, route.id);
 

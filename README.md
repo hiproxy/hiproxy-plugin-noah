@@ -62,17 +62,17 @@ USAGE:
 
 DESCRIBE:
 
-  Start a proxy server and use Noah environment by an `envid`
+  启动一个代理服务，并使用<envid>对应的Noah环境的hosts
 
 OPTIONS:
 
   -h, --help                    show help info
-  -s, --https                   Enable HTTPS proxy
-  -m, --middle-man-port <port>  The HTTPS proxy port, default: 10010
-  -o, --open [browser]          Open a browser window and use hiproxy proxy
-  --pac-proxy                   Use Proxy auto-configuration (PAC)
-  -p, --port <port>             HTTP proxy port, default: 5525
-  --sys-proxy <path>            Your own proxy server path, format: <ip>[:port], only works when use PAC
+  -s, --https                   启用HTTPS请求代理
+  -m, --middle-man-port <port>  HTTPS代理服务端口号，默认: 10010
+  -o, --open [browser]          打开浏览器窗口，并且配置好代理（hiproxy代理）
+  --pac-proxy                   使用Proxy auto-configuration (PAC)代理
+  -p, --port <port>             HTTP代理服务端口号，默认：5525
+  --sys-proxy <path>            系统代理，没有走hiproxy代理的请求会走这个代理，格式: <ip>[:port]，只在使用PAC代理时生效
 ```
 
 ## License

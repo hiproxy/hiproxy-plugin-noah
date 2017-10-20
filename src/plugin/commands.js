@@ -10,14 +10,14 @@ var noahData = global.hiproxy.dataProvider.getData('noah');
 module.exports = [
   {
     command: 'noah',
-    describe: 'Start a proxy server and use Noah environment by an `envid`',
+    describe: '启动一个代理服务，并使用<envid>对应的Noah环境的hosts',
     usage: 'hiproxy noah <envid>',
     fn: startServer,
     options: {
       'port <port>': {
         alias: 'p',
         validate: /^\d+$/,
-        describe: 'HTTP proxy port, default: 5525'
+        describe: 'HTTP代理服务端口号，默认：5525'
       },
       // 'daemon': {
       //   alias: 'D',
@@ -25,21 +25,21 @@ module.exports = [
       // },
       'https': {
         alias: 's',
-        describe: 'Enable HTTPS proxy'
+        describe: '启用HTTPS请求代理'
       },
       'middle-man-port <port>': {
         alias: 'm',
-        describe: 'The HTTPS proxy port, default: 10010'
+        describe: 'HTTPS代理服务端口号，默认: 10010'
       },
       'open [browser]': {
         alias: 'o',
-        describe: 'Open a browser window and use hiproxy proxy'
+        describe: '打开浏览器窗口，并且配置好代理（hiproxy代理）'
       },
       'pac-proxy': {
-        describe: 'Use ' + 'Proxy auto-configuration (PAC)'.underline
+        describe: '使用' + 'Proxy auto-configuration (PAC)'.underline + '代理'
       },
       'sys-proxy <path>': {
-        describe: 'Your own proxy server path, format: <ip>[:port], only works when use PAC'
+        describe: '系统代理，没有走hiproxy代理的请求会走这个代理，格式: <ip>[:port]，' + '只在使用PAC代理时生效'.underline
       }
     }
   }

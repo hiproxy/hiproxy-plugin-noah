@@ -88,7 +88,7 @@ class App extends Component {
           window.noah.hosts = result.hosts;
           window.noah.envid = envid;
         } else {
-          message.error(`环境切换失败：【${result.message}】`)
+          message.error(`环境切换失败：【${result.message}】`);
         }
       }
     };
@@ -100,7 +100,7 @@ class App extends Component {
     var envid = this.state.envid;
 
     if (envid) {
-      this.sendRequest('http://127.0.0.1:5525/noah/api/set-env/' + envid, envid);          
+      this.sendRequest('/noah/api/set-env/' + envid, envid);
     } else {
       message.warning('请输入envid再尝试切换！');
     }

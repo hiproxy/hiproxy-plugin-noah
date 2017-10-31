@@ -9,6 +9,7 @@ var sendFile = require('../utils/sendFile');
 var mustache = require('mustache');
 var fs = require('fs');
 var path = require('path');
+var logPrefix = '[noah]';
 
 module.exports = [
   {
@@ -22,31 +23,65 @@ module.exports = [
     }
   },
   {
-    route: '/noah/',
+    route: '/noah/(:envid)',
     render: function (route, request, response) {
+      var logger = global.hiproxyServer.logger;
       var noahData = global.hiproxy.dataProvider.getData('noah');
       var noah = noahData.get();
       var html = '';
+      var envid = route.envid;
+      var rendHTML = function () {
+        fs.readFile(path.join(__dirname, '..', 'views', 'noah.html'), 'utf-8', function (err, data) {
+          if (err) {
+            response.writeHead(500, {
+              'Content-Type': 'text/html; charset=utf-8'
+            });
+            response.end('Page render error.');
+          } else {
+            response.writeHead(200, {
+              'Content-Type': 'text/html; charset=utf-8'
+            });
 
-      fs.readFile(path.join(__dirname, '..', 'views', 'noah.html'), 'utf-8', function (err, data) {
-        if (err) {
-          response.writeHead(500, {
-            'Content-Type': 'text/html; charset=utf-8'
-          });
-          response.end('Page render error.');
-        } else {
-          response.writeHead(200, {
-            'Content-Type': 'text/html; charset=utf-8'
-          });
+            html = mustache.render(data, {
+              envid: noah.envid || '',
+              hosts: JSON.stringify(noah.hosts || [])
+            });
 
-          html = mustache.render(data, {
-            envid: noah.envid || '',
-            hosts: JSON.stringify(noah.hosts || [])
-          });
+            response.end(html);
+          }
+        });
+      };
 
-          response.end(html);
-        }
-      });
+      if (envid) {
+        // utils.updateEnv(envid).then(rendHTML);
+        logger.debug(logPrefix, '更新envid:', envid);
+        utils.getHosts(envid)
+          .then(function (data) {
+            var server = global.hiproxyServer;
+            var hosts = data.content;
+            var hiproxyHosts = server.hosts;
+            var hiproxyRewrite = server.rewrite;
+
+            // 清空当前所有的hosts
+            hiproxyHosts.clearFiles();
+            // 晴空当前所有的rewrite
+            hiproxyRewrite.clearFiles();
+
+            // 更新为新环境的hosts
+            utils.updateHosts(hosts, envid);
+
+            logger.debug(logPrefix, 'envid#' + envid + '对应的hosts:', hosts);
+
+            rendHTML();
+          })
+          .catch(function (msg) {
+            logger.error(logPrefix, 'hosts获取失败，错误信息:', msg, '(envid:' + envid + ')');
+            rendHTML();
+          });
+      } else {
+        logger.debug(logPrefix, '没有envid，直接渲染页面');
+        rendHTML();
+      }
     }
   },
   {
